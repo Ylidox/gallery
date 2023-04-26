@@ -1,6 +1,59 @@
 const db = require('./db');
 
 class AuthorController{
+    async registrationAuthor(req, res){
+        try{
+            // console.log(req.body)
+            let {login, password, name, description} = req.body
+            if(!login) {
+                res.status(404).json({message:"Не найден логин"});
+                return;
+            }
+            let author = await db.query('select * from author where author.login = $1', [login]);
+            if(author.rows.length){
+                res.status(404).json({message:"Пользователь уже существует"});
+                return;
+            }
+
+            let filePath = '/pictures/default/cat_.jpg';
+            let file = {
+                name:'cat_.jpg'
+            }
+
+            if(req.body.file != '[object Object]'){
+                file = req.files.file;
+                filePath = `/pictures/${login}/${file.name}`;
+                //console.log(`${__dirname}/..${filePath}`)
+                file.mv(`${__dirname}/../pictures/${login}/${file.name}`, (err) => {
+                    if(err){
+                        res.status(500).json({message:"Ошибка загрузки"});
+                        return;
+                    }
+                });
+            }
+
+            
+            await db.query(`insert into author (name, login, password, path_logo, description) values ($1,$2, $3, $4, $5)`, 
+                [name, login,password,filePath,description]);
+
+            res.json({
+                fileName: file.name,
+                filePath: filePath
+            });
+            
+        }catch(e){
+            console.log(e);
+            res.status(404).json({message:"Ошибка регистрации"});
+        }
+    }
+    async loginAuthor(req, res){
+        try{
+
+        }catch(e){
+            console.log(e);
+            res.status(404).json({message:"Ошибка входа"});
+        }
+    }
     async getAuthors(req, res){
         let users = ('limit' in req.query) ?
             await db.query('SELECT * FROM author limit $1', [req.query.limit]) :

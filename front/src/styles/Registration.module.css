@@ -1,0 +1,132 @@
+.registration{
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+}
+
+.form{
+    display: flex;
+    width: 70%;
+    max-width: 750px;
+    min-width: 680px;
+    height: 70%;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    /* background: gray; */
+}
+
+.image{
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container_img{
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 10px solid black;
+    overflow: hidden;
+    margin: 10px auto;
+}
+
+.container_img>img{
+    width: 300px;
+    height: 300px;
+    object-fit:cover;
+}
+
+.fields{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.send{
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.send>button{
+    margin-top: 52px;
+    width: 93%;
+    border-radius: 20px;
+    font-size: 20px;
+    background-color: black;
+    color:white;
+    border: 1px solid black;
+    height: 32px;
+
+}
+.image>button{
+    margin-top: 10px;
+    width: 80%;
+    border-radius: 20px;
+    font-size: 20px;
+    background-color: black;
+    color:white;
+    border: 1px solid black;
+    height: 32px;
+}
+
+.image>button:hover, .send>button:hover{
+    background: whitesmoke;
+    color:black;
+}
+.image>button:active, .send>button:active{
+    background: black;
+    color: white;
+}
+
+.hidden{
+    display: none;
+}
+
+.fields_container{
+    margin-top: 50px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+}
+.fields_container>input, .fields_container>textarea{
+    padding-left: 7px;
+    width: calc(100% -7px);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: 1px solid black;
+    color:white;
+    background-color: black;
+}
+.fields_container>input{
+    height: 25px;
+}
+
+
+@media(max-width: 670px){
+    .registration{
+        min-width: 370px;
+        width: 100%;
+    }
+    .form{
+        margin-top: 100px;
+        height: 100vh;
+        flex-direction: column;
+        align-items: center;
+        min-width: 100%;
+    }
+    .image, .fields{
+        width: 90%;
+        height: 40vh;
+    }
+    .fields_container{
+        width: 100%;
+        justify-content: center;
+    }
+    .send{
+        justify-content: center;
+    }
+}

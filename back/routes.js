@@ -6,8 +6,9 @@ router.get('/author', authorController.getAuthors);
 router.get('/author/:id', authorController.getAuthor);
 router.get('/author/:id/image', authorController.getAuthorImages);
 router.get('/image', authorController.getImages);
-// router.get('/image', authorController.getImages);
 router.get('/image/:id', authorController.getImage);
 
+router.post('/registration', authorController.registrationAuthor);
+router.post('/login', authorController.loginAuthor);
 
 module.exports = router;

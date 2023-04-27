@@ -8,10 +8,33 @@
     align-items: center;
 }
 
+.links{
+    margin: 0 auto;
+    width: 20%;
+    min-width: 300px;
+    display: flex;
+    justify-content: space-around;
+}
+.links>a{
+    color: white;
+    font-size: 17px;
+    text-decoration: none;
+}
+.links>a:hover{
+    text-decoration-line: underline;
+}
+
 .name{
     display: flex;
     margin-left: 30px;
     font-weight: bold;
     font-size: 30px;
+    position: absolute;
 }
 
+.hidden{
+    display: none;
+}
+.visible{
+    display: inline;
+}

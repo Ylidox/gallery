@@ -2,47 +2,58 @@ import React from "react";
 import {useState, useRef} from "react";
 import styles from '../styles/Registration.module.css'
 
-function Registration() {
+function Registration({setAuthUser, homePage}) {
     let logo = useRef(null);
     let inputFile = useRef(null);
     let [user, setUser] = useState({
-      login: '',
-      password: '',
-      name: '',
-      description: '',
-      logo: {}
+        login: '',
+        password: '',
+        name: '',
+        description: '',
+        logo: {}
     });
     
     let setLogin = (e) => {
-      setUser({...user, login:e.target.value});
+        setUser({...user, login:e.target.value});
     }
     let setPassword = (e) => {
-      setUser({...user, password:e.target.value});
+        setUser({...user, password:e.target.value});
     }
     let setName = (e) => {
-      setUser({...user, name:e.target.value});
+        setUser({...user, name:e.target.value});
     }
     let setDescription = (e) => {
-      setUser({...user, description:e.target.value});
+        setUser({...user, description:e.target.value});
     }
     let sendForm = async (e) => {
       
-      let url = '/api/registration';
-      let formData = new FormData();
-      formData.append('file', user.logo);
-      formData.append('login', user.login);
-      formData.append('password', user.password);
-      formData.append('name', user.name);
-      formData.append('description', user.description);
+        let url = '/api/registration';
+        let formData = new FormData();
+        formData.append('file', user.logo);
+        formData.append('login', user.login);
+        formData.append('password', user.password);
+        formData.append('name', user.name);
+        formData.append('description', user.description);
       
   
-      let res = await fetch(url, {
-        method:'POST',
-        body: formData
-      });
-      let obj = await res.json();
-      console.log(obj);
-      e.preventDefault();
+        let res = await fetch(url, {
+            method:'POST',
+            body: formData
+        });
+
+        let ans = await res.json();
+        if(ans.token){
+            setAuthUser({
+                id: ans.id,
+                token: ans.token,
+                isAuth: true
+            });
+            homePage.current.click();
+        }else {
+            console.log(ans)
+        }
+
+        e.preventDefault();
     }
 
     let selectFile = (e) => {

@@ -1,4 +1,7 @@
 const db = require('./db');
+const config = require('./config');
+const {generateToken, saveToken} = require('./useJWT');
+const { token } = require('./config');
 
 class AuthorController{
     async registrationAuthor(req, res){
@@ -7,6 +10,10 @@ class AuthorController{
             let {login, password, name, description} = req.body
             if(!login) {
                 res.status(404).json({message:"Не найден логин"});
+                return;
+            }
+            if(!password) {
+                res.status(404).json({message:"Не найден пароль"});
                 return;
             }
             let author = await db.query('select * from author where author.login = $1', [login]);
@@ -31,14 +38,19 @@ class AuthorController{
                     }
                 });
             }
-
-            
+          
             await db.query(`insert into author (name, login, password, path_logo, description) values ($1,$2, $3, $4, $5)`, 
                 [name, login,password,filePath,description]);
+            
+            author = await db.query('select * from author where author.login = $1', [login]);
+
+            let token = generateToken(author.rows[0].id);
+            saveToken(token);
 
             res.json({
                 fileName: file.name,
-                filePath: filePath
+                filePath: filePath,
+                token: token
             });
             
         }catch(e){
@@ -48,6 +60,29 @@ class AuthorController{
     }
     async loginAuthor(req, res){
         try{
+            let {login, password} = req.body;
+            if(!login) {
+                res.status(404).json({message:"Не найден логин"});
+                return;
+            }
+            if(!password) {
+                res.status(404).json({message:"Не найден пароль"});
+                return;
+            }
+
+            let author = await db.query('select * from author where author.login = $1', [login]);
+            if(author.rows.length == 1){
+                let token = generateToken(author.rows[0].id);
+                saveToken(token);
+                res.status(200).json({
+                    id: author.rows[0].id,
+                    token: token
+                });
+                return;
+            }else{
+                res.status(404).json({message: "Ошибка авторизации"});
+                return;
+            }
 
         }catch(e){
             console.log(e);
@@ -63,7 +98,9 @@ class AuthorController{
     async getAuthor(req, res){
         const id = req.params.id;
         let user = await db.query('select * from author where id = $1', [id]);
-        res.json(user.rows[0]);
+        res.json({
+            user: user.rows[0]
+        });
     }
     async getAuthorImages(req, res){
         const id = req.params.id;

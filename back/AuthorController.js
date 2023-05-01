@@ -119,8 +119,8 @@ class AuthorController{
     }
     async getAuthorImages(req, res){
         const id = req.params.id;
-        let images = await db.query(
-            `select image.name, image.path_image, image.date, image.description 
+        let images = await db.query(// author.logo_path, author.name
+            `select image.name, image.path_image, image.date, image.description
             from author, image
             where author.id = author_id and author_id = $1`, [id]);
         res.json(images.rows);

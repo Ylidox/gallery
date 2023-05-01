@@ -1,9 +1,22 @@
 const db = require('./db');
 const config = require('./config');
-const {generateToken, saveToken} = require('./useJWT');
-const { token } = require('./config');
+const {generateToken, verifyToken} = require('./useJWT');
+// const { token } = require('./config');
 
 class AuthorController{
+    async verifyLogin(req, res, next){
+        if(req.method == 'OPTIONS') next();
+        try{
+            const token = req.headers.authorization;
+            console.log(token);
+            let decode = verifyToken(token);
+            req.id = decode;
+            next();
+        }catch(e){
+            console.log(e);
+            return res.status(404).json({message:"Пользователь не авторизован"});
+        }
+    }
     async registrationAuthor(req, res){
         try{
             // console.log(req.body)
@@ -45,7 +58,7 @@ class AuthorController{
             author = await db.query('select * from author where author.login = $1', [login]);
 
             let token = generateToken(author.rows[0].id);
-            saveToken(token);
+            // saveToken(token);
 
             res.json({
                 fileName: file.name,
@@ -73,7 +86,7 @@ class AuthorController{
             let author = await db.query('select * from author where author.login = $1', [login]);
             if(author.rows.length == 1){
                 let token = generateToken(author.rows[0].id);
-                saveToken(token);
+                // saveToken(token);
                 res.status(200).json({
                     id: author.rows[0].id,
                     token: token
@@ -90,17 +103,19 @@ class AuthorController{
         }
     }
     async getAuthors(req, res){
+        let data = 'description, id, login, name, path_logo';
         let users = ('limit' in req.query) ?
-            await db.query('SELECT * FROM author limit $1', [req.query.limit]) :
-            await db.query('SELECT * FROM author');
+            await db.query(`SELECT ${data} FROM author limit $1`, [req.query.limit]) :
+            await db.query(`SELECT ${data} FROM author`);
         res.json(users.rows);
     }
+    
     async getAuthor(req, res){
         const id = req.params.id;
-        let user = await db.query('select * from author where id = $1', [id]);
-        res.json({
-            user: user.rows[0]
-        });
+        let user = await db.query('select description, id, login, name, path_logo from author where id = $1', [id]);
+        res.json(
+            user.rows[0]
+        );
     }
     async getAuthorImages(req, res){
         const id = req.params.id;
@@ -114,12 +129,24 @@ class AuthorController{
         let images = ('limit' in req.query) ?
             await db.query('SELECT * FROM image limit $1', [req.query.limit]) :
             await db.query('SELECT * FROM image');
+        
         res.json(images.rows);
     }
     async getImage(req, res){
         const id = req.params.id;
         let image = await db.query('select * from image where id = $1', [id]);
+
+        console.log(image.rows[0].name)
         res.json(image.rows[0]);
+    }
+    async getCountImages(req, res){
+        let count = await db.query('select count(*) as count_img from image');
+        res.json(count.rows[0].count_img);
+    }
+
+    async getRandomIdImage(req, res){
+        let id = await db.query(`SELECT id FROM image ORDER BY RANDOM() LIMIT 1`);
+        res.json(id.rows[0].id);
     }
 }
 

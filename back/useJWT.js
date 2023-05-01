@@ -6,14 +6,14 @@ const generateToken = (id, exp="24h") => {
     return sign(payload, config.key, {expiresIn: exp});
 }
 
-const saveToken = (token) => config.token = token;
 
-const verifyToken = (token) =>
-    verify(token, config.key);
+
+const verifyToken = (token) => verify(token, config.key);
+
 
 module.exports = {
     generateToken,
-    saveToken,
+    // saveToken,
     verifyToken
 }
 

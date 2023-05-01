@@ -21,22 +21,21 @@ function App() {
   let showLinkHome = () => {
     return (user.isAuth) ? styles.visible : styles.hidden; 
   }
-  // let linkHomePage = <Link to="/home" ref={homePage}>Home</Link>;
+
   return (
     <BrowserRouter>
       <div className={styles.header}>
-        <div className={styles.name}>Gallery</div>
+        <div className={styles.name}>GALLERY</div>
         <div className={styles.links}>
           <Link to="/">Main</Link>
           <Link to="/home" ref={homePage} className={showLinkHome()}>Home</Link>
-          {/* {user.isAuth ? linkHomePage : null} */}
           <Link to="/login">Sign in</Link>
           <Link to="/registration">Sign up</Link>
         </div>
       </div>
       <Routes>
         <Route path="/" element={<MainPage/>}/>
-        <Route path="/home" element={<Home/>}/>
+        <Route path="/home" element={<Home user={user}/>}/>
         <Route path="/registration" element={<Registration setAuthUser={setAuthUser} homePage={homePage}/>}/>
         <Route path="/login" element={<Login setAuthUser={setAuthUser} homePage={homePage}/>}/>
       </Routes>

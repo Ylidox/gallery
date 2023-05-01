@@ -94,7 +94,7 @@
     min-width: 50px;
 }
 
-@media (max-width:900px){
+/* @media (max-width:900px){
     .box{
         width: 49.5%;
     }
@@ -104,4 +104,4 @@
     .box{
         width: 98%;
     }
-}
+} */

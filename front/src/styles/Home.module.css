@@ -79,15 +79,14 @@
     flex-wrap: wrap;
 }
 
-/* @media (max-width:700px){
+@media (max-width:1220px){
     .images_container>div{
-        width: 100%;
-
+        width: 49.5%;
     }
-} */
-/* 
-@media (max-width:630px){
+}
+
+@media (max-width:920px){
     .images_container>div{
         width: 98%;
     }
-} */
+}

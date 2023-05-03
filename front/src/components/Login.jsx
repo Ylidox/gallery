@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useAuth } from '../hooks/useAuth';
 import styles from '../styles/Login.module.css'
 function Login({setAuthUser, homePage}){
+    let [authUser, saveAuth] = useAuth();
     let [input, setInput] = useState({
         login: "",
         password: ""
@@ -29,7 +31,13 @@ function Login({setAuthUser, homePage}){
                 token: ans.token,
                 isAuth: true
             });
-            homePage.current.click();
+            saveAuth({
+                id: ans.id,
+                token: ans.token,
+                isAuth: true
+            });
+            setTimeout(() => homePage.current.click(), 1);
+            // homePage.current.click()
         } else {
             console.log(ans)
         }

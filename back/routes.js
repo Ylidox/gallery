@@ -15,4 +15,6 @@ router.get('/image/:id', /*authorController.verifyLogin,*/ authorController.getI
 router.post('/registration', authorController.registrationAuthor);
 router.post('/login', authorController.loginAuthor);
 
+router.put('/author/:id/image', authorController.verifyLogin, authorController.addImage);
+
 module.exports = router;

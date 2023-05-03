@@ -1,12 +1,15 @@
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Registration from "./components/Registration";
 import { Login } from "./components/Login";
 import {MainPage} from "./components/MainPage";
 import styles from './styles/App.module.css'
 import {BrowserRouter, Routes, Route, Link} from 'react-router-dom'
 import { Home } from "./components/Home";
+import { useAuth } from "./hooks/useAuth";
+import {AddPicture} from "./components/AddPicture"
 
 function App() {
+  let [authUser, saveAuth] = useAuth();
   let [user, setUser] = useState({
     id: 0,
     token: '',
@@ -14,7 +17,14 @@ function App() {
   });
   let setAuthUser = (obj) => {
     setUser({...obj});
+    // homePage.current.click();
   }
+
+  useEffect(() => {
+    if(authUser.isAuth) {
+      setUser({...authUser});
+    }
+  }, []);
 
   let homePage = useRef(null);
 
@@ -38,6 +48,7 @@ function App() {
         <Route path="/home" element={<Home user={user}/>}/>
         <Route path="/registration" element={<Registration setAuthUser={setAuthUser} homePage={homePage}/>}/>
         <Route path="/login" element={<Login setAuthUser={setAuthUser} homePage={homePage}/>}/>
+        <Route path="/add" element={<AddPicture id={user.id} token={user.token} homePage={homePage}/>}/>
       </Routes>
 
     </BrowserRouter>

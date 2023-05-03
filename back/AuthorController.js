@@ -10,12 +10,34 @@ class AuthorController{
             const token = req.headers.authorization;
             console.log(token);
             let decode = verifyToken(token);
-            req.id = decode;
+            req.id = decode.id;
             next();
         }catch(e){
             console.log(e);
             return res.status(404).json({message:"Пользователь не авторизован"});
         }
+    }
+    async addImage(req, res){
+        let id = req.id;
+
+        let {name, description, date} = req.body;
+        date += '-01-01';
+        let login = await db.query('select login from author where id = $1', [id]);
+        login = login.rows[0].login;
+
+        let file = req.files.file;
+        let filePath = `/pictures/${login}/${file.name}`;
+
+        await db.query(`insert into image (name, path_image, date, description, author_id) values
+            ($1, $2, $3, $4, $5)`, [name, filePath, date, description, id]);
+
+        file.mv(`${__dirname}/../pictures/${login}/${file.name}`, (err) => {
+            if(err){
+                res.status(500).json({message:"Ошибка загрузки"});
+                return;
+            }
+        });
+        res.status(200).json({message:"Запрос получен"});
     }
     async registrationAuthor(req, res){
         try{
@@ -136,7 +158,7 @@ class AuthorController{
         const id = req.params.id;
         let image = await db.query('select * from image where id = $1', [id]);
 
-        console.log(image.rows[0].name)
+        // console.log(image.rows[0].name)
         res.json(image.rows[0]);
     }
     async getCountImages(req, res){

@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
+import { Link} from "react-router-dom";
 import styles from "../styles/Home.module.css"
 import Picture from "./Picture";
+// import {AddPicture} from "./AddPicture";
+import { useAuth } from "../hooks/useAuth";
 
 let getAuthor = async (id) => {
     let res = await fetch(`/api/author/${id}`);
@@ -24,16 +27,22 @@ let getAuthorImage = async (id, name, logo) => {
 function Home({user}){
     let [author, setAuthor] = useState({});
     let [images, setImages] = useState([]);
+    let [authUser, saveAuth] = useAuth();
     useEffect(() => {
+        if(user.id == 0){
+            user = authUser;
+        }
+        console.log(user)
         getAuthor(user.id)
-            .then(res => {
-                console.log(res)
-                setAuthor(res);
+            .then(author => {
+                console.log(author)
 
-                getAuthorImage(user.id, res.name, res.path_logo)
+                getAuthorImage(user.id, author.name, author.path_logo)
                     .then(res => {
                         let img = res.map(item => <Picture key={item.id + Math.floor(Math.random() * 10000)} data={item}/>)
                         setImages(img);
+                        setAuthor(author);
+
                     })
             })
     }, []);
@@ -59,7 +68,11 @@ function Home({user}){
                     </div>
                     
                     <div className={styles.add_picture}>
-                        <button>+Add new picture</button>
+                        <Link to="/add">
+                        <button>
+                            +Add new picture
+                        </button>
+                        </Link>
                     </div>
                     <div className={styles.images_container}>
                         {images}

@@ -65,7 +65,7 @@
     width: 100%;
     margin-bottom: 5px;
 }
-.add_picture>button{
+.add_picture>a>button{
     width: 100%;
     height: 50px;
     color:white;

@@ -49,6 +49,7 @@ function MainPage(){
     // let [imageShown, setImageShown] = useState({length: 0});
 
     useEffect(() => {
+        imageShown = {length: 0};
         let arr = [];
         generatePicture(arr, 12)
             .then(res => {

@@ -8,13 +8,13 @@ let save = (user) => {
 let useAuth = (user = null) => {
     if(user){
         save(user);
-        return [true, save];
+        return [user, save];
     } else {
         let user = {};
         user.token = localStorage.getItem('token');
         user.id = localStorage.getItem('id');
         user.isAuth = localStorage.getItem('isAuth');
-        if(!(user.token && user.id && user.isAuth)) return [false, save];
+        if(!(user.token && user.id && user.isAuth)) return [user, save];
         return [user, save];
     }
 }

@@ -1,14 +1,25 @@
-import {useEffect, useRef, useState} from "react";
+import {createContext, useEffect, useRef, useState} from "react";
 import Registration from "./components/Registration";
 import { Login } from "./components/Login";
 import {MainPage} from "./components/MainPage";
 import styles from './styles/App.module.css'
-import {BrowserRouter, Routes, Route, Link} from 'react-router-dom'
+import {BrowserRouter, Routes, Route, NavLink} from 'react-router-dom'
 import { Home } from "./components/Home";
 import { useAuth } from "./hooks/useAuth";
 import {AddPicture} from "./components/AddPicture"
+import {PicturePage} from "./components/PicturePage"
+import { ImageContext } from "./contexts/ImageContext";
+// let ImageContext = createContext(null);
 
 function App() {
+  let [displayedImage, setDisplayedImage] = useState({
+    author_name: "",
+    author_path_logo: "",
+    date: "",
+    description: "",
+    name: "Вокзал Сен-Лазар",
+    path_image: ""
+  });
   let [authUser, saveAuth] = useAuth();
   let [user, setUser] = useState({
     id: 0,
@@ -37,21 +48,24 @@ function App() {
       <div className={styles.header}>
         <div className={styles.name}>GALLERY</div>
         <div className={styles.links}>
-          <Link to="/">Main</Link>
-          <Link to="/home" ref={homePage} className={showLinkHome()}>Home</Link>
-          <Link to="/login">Sign in</Link>
-          <Link to="/registration">Sign up</Link>
+          <NavLink to="/">Main</NavLink>
+          <NavLink to="/home" ref={homePage} className={showLinkHome()}>Home</NavLink>
+          <NavLink to="/login">Sign in</NavLink>
+          <NavLink to="/registration">Sign up</NavLink>
         </div>
       </div>
-      <Routes>
-        <Route path="/" element={<MainPage/>}/>
-        <Route path="/home" element={<Home user={user}/>}/>
-        <Route path="/registration" element={<Registration setAuthUser={setAuthUser} homePage={homePage}/>}/>
-        <Route path="/login" element={<Login setAuthUser={setAuthUser} homePage={homePage}/>}/>
-        <Route path="/add" element={<AddPicture id={user.id} token={user.token} homePage={homePage}/>}/>
-      </Routes>
-
+      <ImageContext.Provider value={{displayedImage, setDisplayedImage}}>
+        <Routes>
+          <Route path="/" element={<MainPage/>}/>
+          <Route path="/home" element={<Home user={user}/>}/>
+          <Route path="/registration" element={<Registration setAuthUser={setAuthUser} homePage={homePage}/>}/>
+          <Route path="/login" element={<Login setAuthUser={setAuthUser} homePage={homePage}/>}/>
+          <Route path="/add" element={<AddPicture id={user.id} token={user.token} homePage={homePage}/>}/>
+          <Route path='/image' element={<PicturePage/>}/>
+        </Routes>
+      </ImageContext.Provider>
     </BrowserRouter>
+    
   );
 
 }

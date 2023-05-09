@@ -8,7 +8,6 @@ class AuthorController{
         if(req.method == 'OPTIONS') next();
         try{
             const token = req.headers.authorization;
-            console.log(token);
             let decode = verifyToken(token);
             req.id = decode.id;
             next();
@@ -16,6 +15,19 @@ class AuthorController{
             console.log(e);
             return res.status(404).json({message:"Пользователь не авторизован"});
         }
+    }
+    async changeImage(req, res){
+        let author_id = req.id;
+        let {name, date, description, id} = req.body;
+        date += '-01-01';
+        await db.query(`update image set name = $1, date = $2, description = $3 where id = $4`, 
+            [name, date, description, id]);
+        res.status(200).json({message: "Изменяем изображение"});
+    }
+    async deleteImage(req, res){
+        let {id} = req.body;
+        await db.query(`DELETE FROM image WHERE id = $1`, [id]);
+        res.status(200).json({message: "Изображение удалено"});
     }
     async addImage(req, res){
         let id = req.id;
@@ -142,7 +154,7 @@ class AuthorController{
     async getAuthorImages(req, res){
         const id = req.params.id;
         let images = await db.query(// author.logo_path, author.name
-            `select image.name, image.path_image, image.date, image.description
+            `select image.name, image.path_image, image.date, image.description, image.id
             from author, image
             where author.id = author_id and author_id = $1`, [id]);
         res.json(images.rows);

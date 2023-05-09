@@ -9,6 +9,7 @@ import { useAuth } from "./hooks/useAuth";
 import {AddPicture} from "./components/AddPicture"
 import {PicturePage} from "./components/PicturePage"
 import { ImageContext } from "./contexts/ImageContext";
+import { EditImage } from "./components/EditImage";
 // let ImageContext = createContext(null);
 
 function App() {
@@ -18,7 +19,9 @@ function App() {
     date: "",
     description: "",
     name: "Вокзал Сен-Лазар",
-    path_image: ""
+    path_image: "",
+    id: 0,
+    author_id: 0
   });
   let [authUser, saveAuth] = useAuth();
   let [user, setUser] = useState({
@@ -62,6 +65,7 @@ function App() {
           <Route path="/login" element={<Login setAuthUser={setAuthUser} homePage={homePage}/>}/>
           <Route path="/add" element={<AddPicture id={user.id} token={user.token} homePage={homePage}/>}/>
           <Route path='/image' element={<PicturePage/>}/>
+          <Route path='/edit_image' element={<EditImage user={user}/>}/>
         </Routes>
       </ImageContext.Provider>
     </BrowserRouter>

@@ -54,7 +54,7 @@ function AddPicture({id, token, homePage}){
         formData.append('date', date);
 
         let res = await fetch(url, {
-            method:'PUT',
+            method:'POST',
             headers: {
                 authorization: token
             },

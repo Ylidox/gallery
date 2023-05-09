@@ -12,7 +12,6 @@ let randomPicture = async () => {
         let res = await fetch('/api/image/count');
         let count = await res.json();
         if(imageShown.length >= count) {
-            // console.log(id,'reload')
             imageShown = {length:0};
             return await randomPicture();
         }
@@ -27,7 +26,8 @@ let randomPicture = async () => {
         imageShown.length++;
 
         return {
-            ...img, 
+            ...img,
+            id:id,
             author_name : author.name,
             author_path_logo : author.path_logo,
         }
@@ -41,9 +41,6 @@ let generatePicture = async (arr, len) => {
     return arr;
 }
 
-// let arr = [];
-// generatePicture(arr, 10).then(res => console.log(res));
-
 function MainPage(){
     let [images, setImages] = useState([]);
     // let [imageShown, setImageShown] = useState({length: 0});
@@ -52,8 +49,7 @@ function MainPage(){
         imageShown = {length: 0};
         let arr = [];
         generatePicture(arr, 12)
-            .then(res => {
-                console.log(res)
+            .then(res => {             
                 let arr = []
                 for(let item of res){
                     arr.push( <Picture key={item.id + Math.floor(Math.random() * 10000)} data={item}/>)

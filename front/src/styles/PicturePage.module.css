@@ -96,3 +96,10 @@
     background: black;
     font-size: 18px;
 }
+
+.link{
+    color:white;
+}
+.link>a:active{
+    color:grey;
+}

@@ -8,16 +8,15 @@ import { useAuth } from "../hooks/useAuth";
 let getAuthor = async (id) => {
     let res = await fetch(`/api/author/${id}`);
     let author = await res.json();
-    // console.log(author)
     return author;
 }
 
 let getAuthorImage = async (id, name, logo) => {
     let res = await fetch(`/api/author/${id}/image`);
     let images = await res.json();
-    // console.log(images)
     return images.map(item => {return {
         ...item,
+        author_id: id,
         author_name: name,
         author_path_logo: logo
     }})
@@ -32,10 +31,8 @@ function Home({user}){
         if(user.id == 0){
             user = authUser;
         }
-        console.log(user)
         getAuthor(user.id)
             .then(author => {
-                console.log(author)
 
                 getAuthorImage(user.id, author.name, author.path_logo)
                     .then(res => {

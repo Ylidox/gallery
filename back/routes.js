@@ -15,6 +15,10 @@ router.get('/image/:id', /*authorController.verifyLogin,*/ authorController.getI
 router.post('/registration', authorController.registrationAuthor);
 router.post('/login', authorController.loginAuthor);
 
-router.put('/author/:id/image', authorController.verifyLogin, authorController.addImage);
+router.post('/author/:id/image', authorController.verifyLogin, authorController.addImage);
+
+router.put('/author/:id/image', authorController.verifyLogin, authorController.changeImage);
+
+router.delete('/author/:id/image', authorController.verifyLogin, authorController.deleteImage);
 
 module.exports = router;

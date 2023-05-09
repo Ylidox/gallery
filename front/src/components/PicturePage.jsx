@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { ImageContext } from "../contexts/ImageContext";
 import { useAuth } from "../hooks/useAuth";
 import styles from "../styles/PicturePage.module.css"
@@ -6,10 +7,9 @@ import styles from "../styles/PicturePage.module.css"
 function PicturePage(){
     let [authUser, saveAuthUser] = useAuth();
     let imageContext = useContext(ImageContext);
-    console.log("*****imageContext***",imageContext.displayedImage)
 
     let image = imageContext.displayedImage;
-    let [editImages, setEditImages] = useState(+authUser.id === image.author_id);
+    let [editImages, setEditImages] = useState(+authUser.id === +image.author_id);
     return ( 
         <div className={styles.box}>
             <div className={styles.container}>
@@ -36,9 +36,11 @@ function PicturePage(){
                     <p>{image.description}</p>
                 </div>
                 {editImages ? 
-                    <div className={styles.button}>
-                        <button>Редактировать</button>
-                    </div> 
+                    <NavLink to="/edit_image" className={styles.link}>
+                        <div className={styles.button}>
+                            <button>Редактировать</button>
+                        </div> 
+                    </NavLink>
                     :
                     null
                 }

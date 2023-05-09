@@ -3,7 +3,6 @@ import {NavLink} from 'react-router-dom';
 import { useContext } from 'react';
 import { ImageContext } from '../contexts/ImageContext';
 
-
 function Picture({data}){
     let imageContext = useContext(ImageContext);
     let changeImageContext = (e) => {

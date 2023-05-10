@@ -49,7 +49,7 @@ function MainPage(){
         imageShown = {length: 0};
         let arr = [];
         generatePicture(arr, 12)
-            .then(res => {             
+            .then(res => {
                 let arr = []
                 for(let item of res){
                     arr.push( <Picture key={item.id + Math.floor(Math.random() * 10000)} data={item}/>)

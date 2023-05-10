@@ -9,6 +9,14 @@
     max-width: 1000px;
     margin: 0 auto;
 }
+.link{
+    color:white;
+    text-decoration: none;
+}
+
+.link:active{
+    color:gray;
+}
 
 .image{
     width: 100%;
@@ -27,7 +35,7 @@
     min-height: 64px;
     display: flex;
     justify-content: space-between;
-    color:white;
+    /* color:white; */
 }
 
 .image_data{

@@ -1,14 +1,15 @@
-import {createContext, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Registration from "./components/Registration";
 import { Login } from "./components/Login";
 import {MainPage} from "./components/MainPage";
 import styles from './styles/App.module.css'
 import {BrowserRouter, Routes, Route, NavLink} from 'react-router-dom'
-import { Home } from "./components/Home";
+import { Author } from "./components/Author";
 import { useAuth } from "./hooks/useAuth";
 import {AddPicture} from "./components/AddPicture"
 import {PicturePage} from "./components/PicturePage"
 import { ImageContext } from "./contexts/ImageContext";
+import {AuthorContext} from "./contexts/AuthorContext";
 import { EditImage } from "./components/EditImage";
 // let ImageContext = createContext(null);
 
@@ -22,6 +23,9 @@ function App() {
     path_image: "",
     id: 0,
     author_id: 0
+  });
+  let [selectAuthor, setSelectAuthor] = useState({
+    id: 0,
   });
   let [authUser, saveAuth] = useAuth();
   let [user, setUser] = useState({
@@ -58,15 +62,18 @@ function App() {
         </div>
       </div>
       <ImageContext.Provider value={{displayedImage, setDisplayedImage}}>
-        <Routes>
-          <Route path="/" element={<MainPage/>}/>
-          <Route path="/home" element={<Home user={user}/>}/>
-          <Route path="/registration" element={<Registration setAuthUser={setAuthUser} homePage={homePage}/>}/>
-          <Route path="/login" element={<Login setAuthUser={setAuthUser} homePage={homePage}/>}/>
-          <Route path="/add" element={<AddPicture id={user.id} token={user.token} homePage={homePage}/>}/>
-          <Route path='/image' element={<PicturePage/>}/>
-          <Route path='/edit_image' element={<EditImage user={user}/>}/>
-        </Routes>
+        <AuthorContext.Provider value={{selectAuthor, setSelectAuthor}}>
+          <Routes>
+            <Route path="/" element={<MainPage/>}/>
+            <Route path="/home" element={<Author user={user} home={true}/>}/>
+            <Route path="/author" element={<Author user={user}/>}/>
+            <Route path="/registration" element={<Registration setAuthUser={setAuthUser} homePage={homePage}/>}/>
+            <Route path="/login" element={<Login setAuthUser={setAuthUser} homePage={homePage}/>}/>
+            <Route path="/add" element={<AddPicture id={user.id} token={user.token} homePage={homePage}/>}/>
+            <Route path='/image' element={<PicturePage/>}/>
+            <Route path='/edit_image' element={<EditImage user={user}/>}/>
+          </Routes>
+        </AuthorContext.Provider>
       </ImageContext.Provider>
     </BrowserRouter>
     

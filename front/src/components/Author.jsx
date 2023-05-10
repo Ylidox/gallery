@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link} from "react-router-dom";
-import styles from "../styles/Home.module.css"
+import styles from "../styles/Author.module.css"
 import Picture from "./Picture";
-// import {AddPicture} from "./AddPicture";
+import { AuthorContext } from '../contexts/AuthorContext';
 import { useAuth } from "../hooks/useAuth";
 
 let getAuthor = async (id) => {
@@ -23,14 +23,20 @@ let getAuthorImage = async (id, name, logo) => {
 }
 
 
-function Home({user}){
+function Author({user, home}){
     let [author, setAuthor] = useState({});
     let [images, setImages] = useState([]);
     let [authUser, saveAuth] = useAuth();
+    let {selectAuthor, setSelectAuthor} = useContext(AuthorContext);
+    let [showAddPicture, setShowAddPicture] = useState(false);
     useEffect(() => {
         if(user.id == 0){
             user = authUser;
         }
+        if(selectAuthor.id != 0 && !home){
+            user = selectAuthor;
+        }
+        setShowAddPicture(home || selectAuthor.id == authUser.id);
         getAuthor(user.id)
             .then(author => {
 
@@ -42,7 +48,7 @@ function Home({user}){
 
                     })
             })
-    }, []);
+    }, [home]);
     
     return (
         <div className={styles.container}>
@@ -60,17 +66,20 @@ function Home({user}){
             <div className={styles.images}>
                 <div className={styles.author_description}>
                     <div className={styles.info}>
-
                         <p>{author.description}</p>
                     </div>
+                    {showAddPicture ? 
+                        <div className={styles.add_picture}>
+                            <Link to="/add">
+                            <button>
+                                +Add new picture
+                            </button>
+                            </Link>
+                        </div>
+                        :
+                        null
+                    }
                     
-                    <div className={styles.add_picture}>
-                        <Link to="/add">
-                        <button>
-                            +Add new picture
-                        </button>
-                        </Link>
-                    </div>
                     <div className={styles.images_container}>
                         {images}
                     </div>
@@ -80,4 +89,4 @@ function Home({user}){
     );
 }
 
-export {Home}
+export {Author}

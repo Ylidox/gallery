@@ -17,9 +17,9 @@ class AuthorController{
         }
     }
     async changeImage(req, res){
-        let author_id = req.id;
         let {name, date, description, id} = req.body;
-        date += '-01-01';
+        date += '-01-02';
+        console.log(date)
         await db.query(`update image set name = $1, date = $2, description = $3 where id = $4`, 
             [name, date, description, id]);
         res.status(200).json({message: "Изменяем изображение"});
@@ -33,7 +33,7 @@ class AuthorController{
         let id = req.id;
 
         let {name, description, date} = req.body;
-        date += '-01-01';
+        date += '-01-02';
         let login = await db.query('select login from author where id = $1', [id]);
         login = login.rows[0].login;
 

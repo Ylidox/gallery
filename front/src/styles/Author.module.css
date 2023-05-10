@@ -2,18 +2,16 @@
     width: 100%;
     display: flex;
     flex-direction: row;
+    min-width: 320px;
     /* flex-wrap: wrap; */
 }
 
 .author{
     width: 320px;
     position: absolute;
-    height: 90vh;
     display: flex;
     flex-direction: column;
-    /* flex-wrap: wrap; */
     min-width: 320px;
-    /* border-right: 1px solid grey; */
 }
 .author_info{
     margin-left: 10%;
@@ -30,6 +28,10 @@
 .author_description{
     min-width: 300px;
     font-size: 17px;
+}
+.info{
+    width: calc(100% - 10px);
+    margin: 0 auto;
 }
 
 .logo_container{
@@ -52,6 +54,7 @@
 }
 
 .images{
+    display: flex;
     margin-left: 320px;
     width: calc(100% - 320px);
     /* background: red; */
@@ -75,8 +78,12 @@
 
 .images_container{
     display: flex;
-    justify-content: space-around;
+    /* justify-content: space-around; */
     flex-wrap: wrap;
+    min-width: 320px;
+}
+.images_container>div{
+    margin: 1px;
 }
 
 @media (max-width:1220px){
@@ -85,8 +92,34 @@
     }
 }
 
-@media (max-width:920px){
+@media (max-width:925px){
     .images_container>div{
         width: 98%;
+    }
+}
+
+@media(max-width:810px){
+    .container{
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    .author{
+        position: relative;
+        width: 40%;
+        margin: 0 auto;
+    }
+    .images{
+        margin-left: 0px;
+        width: 98%;
+        margin: 0 auto;
+    }
+    .images_container>div{
+        width: 49.5%;
+    }
+}
+
+@media (max-width: 635px){
+    .images_container>div{
+        width: 98.5%;
     }
 }

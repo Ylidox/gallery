@@ -44,7 +44,7 @@ function EditImage({user}){
             },
             body: JSON.stringify({id:image.id})
         });
-        let ans = await res.json();
+        // let ans = await res.json();
     }
 
     return (

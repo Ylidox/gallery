@@ -42,7 +42,10 @@ function EditImage({user}){
                 'Content-Type': 'application/json;charset=utf-8',
                 authorization: user.token
             },
-            body: JSON.stringify({id:image.id})
+            body: JSON.stringify({
+                id:image.id,
+                path: image.path_image
+            })
         });
         // let ans = await res.json();
     }

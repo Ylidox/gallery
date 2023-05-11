@@ -25,7 +25,15 @@ class AuthorController{
         res.status(200).json({message: "Изменяем изображение"});
     }
     async deleteImage(req, res){
-        let {id} = req.body;
+        let {id, path} = req.body;
+        
+        let fs = require('fs');
+        fs.unlink(__dirname + '/..' + path, err => {
+            if(err) {
+                console.log(err);
+            }
+        });
+
         await db.query(`DELETE FROM image WHERE id = $1`, [id]);
         res.status(200).json({message: "Изображение удалено"});
     }

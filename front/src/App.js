@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import Registration from "./components/Registration";
 import { Login } from "./components/Login";
-import {MainPage} from "./components/MainPage";
+import MainPage from "./components/MainPage";
 import styles from './styles/App.module.css'
 import {BrowserRouter, Routes, Route, NavLink} from 'react-router-dom'
 import { Author } from "./components/Author";
@@ -14,12 +14,13 @@ import { EditImage } from "./components/EditImage";
 // let ImageContext = createContext(null);
 
 function App() {
+  let [imagesMainPage, setImagesMainPage] = useState([]);
   let [displayedImage, setDisplayedImage] = useState({
     author_name: "",
     author_path_logo: "",
     date: "",
     description: "",
-    name: "Вокзал Сен-Лазар",
+    name: "",
     path_image: "",
     id: 0,
     author_id: 0
@@ -64,7 +65,7 @@ function App() {
       <ImageContext.Provider value={{displayedImage, setDisplayedImage}}>
         <AuthorContext.Provider value={{selectAuthor, setSelectAuthor}}>
           <Routes>
-            <Route path="/" element={<MainPage/>}/>
+            <Route path="/" element={<MainPage imagesMainPage={imagesMainPage} setImagesMainPage={setImagesMainPage}/>}/>
             <Route path="/home" element={<Author user={user} home={true}/>}/>
             <Route path="/author" element={<Author user={user}/>}/>
             <Route path="/registration" element={<Registration setAuthUser={setAuthUser} homePage={homePage}/>}/>

@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect } from "react";
 import styles from '../styles/MainPage.module.css'
 import Picture from './Picture.jsx'
-
-
 
 let imageShown = {length: 0};
 let randomPicture = async () => {
@@ -41,21 +39,46 @@ let generatePicture = async (arr, len) => {
     return arr;
 }
 
-function MainPage(){
+function MainPage({imagesMainPage, setImagesMainPage}){
     let [images, setImages] = useState([]);
-    // let [imageShown, setImageShown] = useState({length: 0});
+    let [fetching, setFetching] = useState(false);
+
+    let scrollHandler = (e) => {
+        // console.log("scroll");
+        let element = e.target.documentElement;
+        if(element.scrollHeight - (element.scrollTop + window.innerHeight) < 100){
+            setFetching(true);
+        }
+    }
+
+    let updateImagesStates = res => {
+        let arr = []
+        for(let item of res){
+            arr.push( <Picture key={item.id + Math.floor(Math.random() * 10000)} data={item}/>)
+        }
+        setImages([...images, ...arr]);
+        setImagesMainPage([...images, ...arr]);
+        setFetching(false)
+    }
+
+    useEffect(() => {
+        if(fetching){
+            generatePicture([], 6)
+                .then(updateImagesStates)
+        }
+    }, [fetching]);
 
     useEffect(() => {
         imageShown = {length: 0};
         let arr = [];
-        generatePicture(arr, 12)
-            .then(res => {
-                let arr = []
-                for(let item of res){
-                    arr.push( <Picture key={item.id + Math.floor(Math.random() * 10000)} data={item}/>)
-                }
-                setImages(arr)
-            })
+        if(imagesMainPage.length){
+            setImages(imagesMainPage);
+        }
+        else generatePicture(arr, 12)
+            .then(updateImagesStates)
+
+        document.addEventListener('scroll', scrollHandler);
+        return () => document.removeEventListener('scroll', scrollHandler);
     }, []);
 
     return (
@@ -67,4 +90,4 @@ function MainPage(){
     );
 }
 
-export {MainPage}
+export default MainPage;

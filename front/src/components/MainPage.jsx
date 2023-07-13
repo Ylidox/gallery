@@ -69,12 +69,10 @@ function MainPage({imagesMainPage, setImagesMainPage}){
     }, [fetching]);
 
     useEffect(() => {
-        imageShown = {length: 0};
-        let arr = [];
         if(imagesMainPage.length){
             setImages(imagesMainPage);
         }
-        else generatePicture(arr, 12)
+        else generatePicture([], 12)
             .then(updateImagesStates)
 
         document.addEventListener('scroll', scrollHandler);
@@ -83,9 +81,11 @@ function MainPage({imagesMainPage, setImagesMainPage}){
 
     return (
         <>
-            <div className={styles.images}>
-                {images}
-            </div>        
+            <div className={styles.images_container}>
+                <div className={styles.images}>
+                    {images}
+                </div> 
+            </div>       
         </>
     );
 }

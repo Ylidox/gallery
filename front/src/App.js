@@ -11,9 +11,12 @@ import {PicturePage} from "./components/PicturePage"
 import { ImageContext } from "./contexts/ImageContext";
 import {AuthorContext} from "./contexts/AuthorContext";
 import { EditImage } from "./components/EditImage";
+import EditProfile from "./components/EditProfile";
+// import BurgerButton from './components/BurgerButton';
 // let ImageContext = createContext(null);
 
 function App() {
+
   let [imagesMainPage, setImagesMainPage] = useState([]);
   let [displayedImage, setDisplayedImage] = useState({
     author_name: "",
@@ -43,7 +46,7 @@ function App() {
     if(authUser.isAuth) {
       setUser({...authUser});
     }
-  }, []);
+  }, [authUser.isAuth]);
 
   let homePage = useRef(null);
 
@@ -55,13 +58,19 @@ function App() {
     <BrowserRouter>
       <div className={styles.header}>
         <div className={styles.name}>GALLERY</div>
-        <div className={styles.links}>
-          <NavLink to="/">Main</NavLink>
-          <NavLink to="/home" ref={homePage} className={showLinkHome()}>Home</NavLink>
-          <NavLink to="/login">Sign in</NavLink>
-          <NavLink to="/registration">Sign up</NavLink>
-        </div>
+          <div className={styles.links}>
+            <NavLink to="/">Main</NavLink>
+            <NavLink to="/home" ref={homePage} className={showLinkHome()}>Home</NavLink>
+            <NavLink to="/login">Sign in</NavLink>
+            <NavLink to="/registration">Sign up</NavLink>
+          </div>
       </div>
+      {/* <div className={styles.menu}>
+        <NavLink to="/">Main</NavLink>
+        <NavLink to="/home" ref={homePage} className={showLinkHome()}>Home</NavLink>
+        <NavLink to="/login">Sign in</NavLink>
+        <NavLink to="/registration">Sign up</NavLink>
+      </div> */}
       <ImageContext.Provider value={{displayedImage, setDisplayedImage}}>
         <AuthorContext.Provider value={{selectAuthor, setSelectAuthor}}>
           <Routes>
@@ -73,6 +82,7 @@ function App() {
             <Route path="/add" element={<AddPicture id={user.id} token={user.token} homePage={homePage}/>}/>
             <Route path='/image' element={<PicturePage/>}/>
             <Route path='/edit_image' element={<EditImage user={user}/>}/>
+            <Route path='/edit_profile' element={<EditProfile user={user}/>}/>
           </Routes>
         </AuthorContext.Provider>
       </ImageContext.Provider>

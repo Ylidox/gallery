@@ -7,8 +7,8 @@ function EditImage({user}){
     let imageContext = useContext(ImageContext);
 
     let image = imageContext.displayedImage;
-    console.log("****user****", user);
-    console.log("****imageContext****", image);
+    // console.log("****user****", user);
+    // console.log("****imageContext****", image);
 
     let [form, setForm] = useState({
         date: image.date.slice(0, 4),

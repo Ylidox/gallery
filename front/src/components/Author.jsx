@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Link} from "react-router-dom";
+import { NavLink} from "react-router-dom";
 import styles from "../styles/Author.module.css"
 import Picture from "./Picture";
 import { AuthorContext } from '../contexts/AuthorContext';
@@ -45,24 +45,30 @@ function Author({user, home}){
                         let img = res.map(item => <Picture key={item.id + Math.floor(Math.random() * 10000)} data={item}/>)
                         setImages(img);
                         setAuthor(author);
-
+                        setSelectAuthor(author);
                     })
             })
     }, [home]);
+    useEffect(() => {
+        user = selectAuthor;
+        console.log("****update select author****", user)
+    }, [selectAuthor]);
     
     return (
         <div className={styles.container}>
-            <div className={styles.author}>
-                <div className={styles.logo_container}>
-                    <div className={styles.logo}>
-                        <img src={author.path_logo} alt={author.name}/>
+            <NavLink to="/edit_profile" className={styles.link}>
+                <div className={styles.author}>
+                    <div className={styles.logo_container}>
+                        <div className={styles.logo}>
+                            <img src={author.path_logo} alt={author.name}/>
+                        </div>
+                    </div>
+                    <div className={styles.author_info}>
+                        <h2>{author.name}</h2>
+                        <h3>@{author.login}</h3>
                     </div>
                 </div>
-                <div className={styles.author_info}>
-                    <h2>{author.name}</h2>
-                    <h3>@{author.login}</h3>
-                </div>
-            </div>
+            </NavLink>
             <div className={styles.images}>
                 <div className={styles.author_description}>
                     <div className={styles.info}>
@@ -70,11 +76,11 @@ function Author({user, home}){
                     </div>
                     {showAddPicture ? 
                         <div className={styles.add_picture}>
-                            <Link to="/add">
+                            <NavLink to="/add">
                             <button>
                                 +Add new picture
                             </button>
-                            </Link>
+                            </NavLink>
                         </div>
                         :
                         null

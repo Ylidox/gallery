@@ -6,6 +6,13 @@
     /* flex-wrap: wrap; */
 }
 
+.link{
+    color:black;
+}
+.link:active{
+    color:gray;
+}
+
 .author{
     width: 320px;
     position: absolute;
@@ -74,6 +81,7 @@
     color:white;
     background: black;
     font-size: 18px;
+    border: 1px solid black;
 }
 
 .images_container{

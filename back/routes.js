@@ -18,6 +18,7 @@ router.post('/login', authorController.loginAuthor);
 router.post('/author/:id/image', authorController.verifyLogin, authorController.addImage);
 
 router.put('/author/:id/image', authorController.verifyLogin, authorController.changeImage);
+router.put('/author/edit_profile', authorController.verifyLogin, authorController.changeProfile);
 
 router.delete('/author/:id/image', authorController.verifyLogin, authorController.deleteImage);
 

@@ -19,10 +19,41 @@ class AuthorController{
     async changeImage(req, res){
         let {name, date, description, id} = req.body;
         date += '-01-02';
-        console.log(date)
+        // console.log(date)
         await db.query(`update image set name = $1, date = $2, description = $3 where id = $4`, 
             [name, date, description, id]);
         res.status(200).json({message: "Изменяем изображение"});
+    }
+    async changeProfile(req, res){
+        // console.log("id", req.id);
+        // console.log(req.body)
+        // console.log(req.files)
+        let filePath = req.body.path_logo;
+        if(req.files != null){
+            let fs = require('fs');
+            fs.unlink(__dirname + '/..' + req.body.path_logo, err => {
+                if(err) {
+                    console.log(err);
+                }
+            });
+            let file = req.files.file;
+            // filePath = req.body.path_logo; 
+            filePath = `/pictures/${req.body.login}/${file.name}`;
+            // console.log("nevFilePath: ", `/pictures/${req.body.login}/${file.name}`);
+            await file.mv(`${__dirname}/..${filePath}`, (err) => {
+                if(err){
+                    res.status(500).json({message:"Ошибка загрузки"});
+                    return;
+                }
+            });
+        }
+        await db.query(`update author set name = $1, login = $2, description = $3, path_logo = $4 where id = $5`, 
+            [req.body.name, req.body.login, req.body.description, filePath, req.id]);
+
+        res.status(200).json({
+            ...req.body,
+            path_logo: filePath
+        });
     }
     async deleteImage(req, res){
         let {id, path} = req.body;

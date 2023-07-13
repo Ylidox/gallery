@@ -1,24 +1,27 @@
-.images{
-    margin-top: 1px;
-    display: flex;
-    /* justify-content: space-around; */
-    flex-wrap: wrap;
+.images_container{
     width: 100%;
+    margin: 0 auto;
+    margin-top: 2px;
+    display: flex;
+    justify-content: center;
+}
+.images{
+    display: flex;
+    flex-wrap: wrap;
     height: 20vh;
 }
 .images>div{
-    /* width: 33.1%; */
-    margin: 1px;
+    margin: 2px;
 }
 
-@media (max-width:900px){
+@media (max-width:920px){
     .images>div{
-        width: 49.7%;
+        width: 49%;
     }
 }
 
 @media (max-width:630px){
     .images>div{
-        width: 99%;
+        width: 98%;
     }
 }

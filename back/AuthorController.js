@@ -207,6 +207,10 @@ class AuthorController{
     }
     async getImage(req, res){
         const id = req.params.id;
+        if(Number.isNaN(+id)) {
+            res.status(404).json({message:'изображение не найдено'});
+            return;
+        }
         let image = await db.query('select * from image where id = $1', [id]);
 
         // console.log(image.rows[0].name)

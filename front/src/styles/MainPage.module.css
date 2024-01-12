@@ -16,12 +16,16 @@
 
 @media (max-width:920px){
     .images>div{
-        width: 49%;
+        width: calc(49% + 5px);
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 
 @media (max-width:630px){
     .images>div{
         width: 98%;
+        margin-left: auto;
+        margin-right: auto;
     }
 }

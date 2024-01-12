@@ -1,8 +1,10 @@
 import React from "react";
 import {useState, useRef} from "react";
 import styles from '../styles/Registration.module.css'
+import { useNavigate } from "react-router-dom";
 
-function Registration({setAuthUser, homePage}) {
+function Registration({setAuthUser}) {
+    const navigate = useNavigate();
     let logo = useRef(null);
     let inputFile = useRef(null);
     let [user, setUser] = useState({
@@ -48,7 +50,8 @@ function Registration({setAuthUser, homePage}) {
                 token: ans.token,
                 isAuth: true
             });
-            homePage.current.click();
+            navigate('/home');
+            // homePage.current.click();
         }else {
             console.log(ans)
         }

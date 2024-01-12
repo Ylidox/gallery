@@ -1,6 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import styles from "../styles/AddPicture.module.css"
-import {useState, useRef} from "react"
-function AddPicture({id, token, homePage}){
+import {useState, useRef} from "react";
+
+
+function AddPicture({id, token}){
+    const navigate = useNavigate();
     let [isSelectedPhoto, setSelectedPhoto] = useState(false);
     let [name, setName] = useState('');
     let [description, setDescription] = useState('');
@@ -63,7 +67,8 @@ function AddPicture({id, token, homePage}){
         let ans = await res.json();
         
         console.log(ans)
-        homePage.current.click();
+        // homePage.current.click();
+        navigate('/home');
     }
     return (
         <>

@@ -3,7 +3,7 @@ import Registration from "./components/Registration";
 import { Login } from "./components/Login";
 import MainPage from "./components/MainPage";
 import styles from './styles/App.module.css'
-import {BrowserRouter, Routes, Route, NavLink} from 'react-router-dom'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import { Author } from "./components/Author";
 import { useAuth } from "./hooks/useAuth";
 import {AddPicture} from "./components/AddPicture"
@@ -12,11 +12,10 @@ import { ImageContext } from "./contexts/ImageContext";
 import {AuthorContext} from "./contexts/AuthorContext";
 import { EditImage } from "./components/EditImage";
 import EditProfile from "./components/EditProfile";
-// import BurgerButton from './components/BurgerButton';
-// let ImageContext = createContext(null);
+
+import Menu from './components/Menu';
 
 function App() {
-
   let [imagesMainPage, setImagesMainPage] = useState([]);
   let [displayedImage, setDisplayedImage] = useState({
     author_name: "",
@@ -48,38 +47,24 @@ function App() {
     }
   }, [authUser.isAuth]);
 
-  let homePage = useRef(null);
-
-  let showLinkHome = () => {
-    return (user.isAuth) ? styles.visible : styles.hidden; 
-  }
+  
 
   return (
     <BrowserRouter>
-      <div className={styles.header}>
-        <div className={styles.name}>GALLERY</div>
-          <div className={styles.links}>
-            <NavLink to="/">Main</NavLink>
-            <NavLink to="/home" ref={homePage} className={showLinkHome()}>Home</NavLink>
-            <NavLink to="/login">Sign in</NavLink>
-            <NavLink to="/registration">Sign up</NavLink>
-          </div>
-      </div>
-      {/* <div className={styles.menu}>
-        <NavLink to="/">Main</NavLink>
-        <NavLink to="/home" ref={homePage} className={showLinkHome()}>Home</NavLink>
-        <NavLink to="/login">Sign in</NavLink>
-        <NavLink to="/registration">Sign up</NavLink>
-      </div> */}
+      <Menu user={user}/>
+      <br style={{
+        margin: 'calc(3vh + 4px)',
+        height: 0,
+      }}/>
       <ImageContext.Provider value={{displayedImage, setDisplayedImage}}>
         <AuthorContext.Provider value={{selectAuthor, setSelectAuthor}}>
           <Routes>
             <Route path="/" element={<MainPage imagesMainPage={imagesMainPage} setImagesMainPage={setImagesMainPage}/>}/>
             <Route path="/home" element={<Author user={user} home={true}/>}/>
             <Route path="/author" element={<Author user={user}/>}/>
-            <Route path="/registration" element={<Registration setAuthUser={setAuthUser} homePage={homePage}/>}/>
-            <Route path="/login" element={<Login setAuthUser={setAuthUser} homePage={homePage}/>}/>
-            <Route path="/add" element={<AddPicture id={user.id} token={user.token} homePage={homePage}/>}/>
+            <Route path="/registration" element={<Registration setAuthUser={setAuthUser}/>}/>
+            <Route path="/login" element={<Login setAuthUser={setAuthUser}/>}/>
+            <Route path="/add" element={<AddPicture id={user.id} token={user.token}/>}/>
             <Route path='/image' element={<PicturePage/>}/>
             <Route path='/edit_image' element={<EditImage user={user}/>}/>
             <Route path='/edit_profile' element={<EditProfile user={user}/>}/>

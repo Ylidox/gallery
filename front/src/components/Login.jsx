@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import styles from '../styles/Login.module.css'
-function Login({setAuthUser, homePage}){
+import { useNavigate } from 'react-router-dom';
+function Login({setAuthUser}){
+    const navigate = useNavigate();
     let [authUser, saveAuth] = useAuth();
     let [input, setInput] = useState({
         login: "",
@@ -36,7 +38,8 @@ function Login({setAuthUser, homePage}){
                 token: ans.token,
                 isAuth: true
             });
-            setTimeout(() => homePage.current.click(), 1);
+            setTimeout(() => navigate('/home'), 1);
+            // setTimeout(() => homePage.current.click(), 1);
             // homePage.current.click()
         } else {
             console.log(ans)

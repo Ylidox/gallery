@@ -57,7 +57,7 @@
 .menu_button{
   position: absolute;
   right: 0;
-  margin-top: 19px;
+  margin-top: calc((10vh - 30px) / 2);
   margin-right: 10px;
 }
 .menu_button:hover{
@@ -85,7 +85,7 @@
   list-style: none;
   padding: 0;
   height: 100vh;
-  margin-top: 50px;
+  margin-top: 10vh;
   transition: all 0.5s;
   padding-top: 50px;
   background-color: black;

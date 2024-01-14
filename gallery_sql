@@ -1,0 +1,204 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.10 (Ubuntu 14.10-0ubuntu0.22.04.1)
+-- Dumped by pg_dump version 14.10 (Ubuntu 14.10-0ubuntu0.22.04.1)
+
+-- Started on 2024-01-14 21:02:21 MSK
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 210 (class 1259 OID 16410)
+-- Name: author; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.author (
+    id integer NOT NULL,
+    name text NOT NULL,
+    login character varying(12) NOT NULL,
+    password character varying(10) NOT NULL,
+    path_logo text,
+    description text
+);
+
+
+ALTER TABLE public.author OWNER TO postgres;
+
+--
+-- TOC entry 209 (class 1259 OID 16409)
+-- Name: author_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.author_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.author_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3369 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: author_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.author_id_seq OWNED BY public.author.id;
+
+
+--
+-- TOC entry 212 (class 1259 OID 16419)
+-- Name: image; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.image (
+    id integer NOT NULL,
+    name text NOT NULL,
+    path_image text,
+    description text,
+    date timestamp without time zone,
+    author_id integer
+);
+
+
+ALTER TABLE public.image OWNER TO postgres;
+
+--
+-- TOC entry 211 (class 1259 OID 16418)
+-- Name: image_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.image_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.image_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3370 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: image_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.image_id_seq OWNED BY public.image.id;
+
+
+--
+-- TOC entry 3214 (class 2604 OID 16413)
+-- Name: author id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.author ALTER COLUMN id SET DEFAULT nextval('public.author_id_seq'::regclass);
+
+
+--
+-- TOC entry 3215 (class 2604 OID 16422)
+-- Name: image id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.image ALTER COLUMN id SET DEFAULT nextval('public.image_id_seq'::regclass);
+
+
+--
+-- TOC entry 3361 (class 0 OID 16410)
+-- Dependencies: 210
+-- Data for Name: author; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.author (id, name, login, password, path_logo, description) VALUES (3, 'Иван Константинович Айвазовский', 'aivazovsky', 'aivazovsky', 'pictures/aivazovsky/ivan_aivazovskiy.jpg', 'Русский живописец-маринист армянского происхождения, коллекционер, меценат.');
+INSERT INTO public.author (id, name, login, password, path_logo, description) VALUES (2, 'Клод Моне', 'monet', 'monet', '/pictures/monet/Klod-Mone.jpg', 'Французский живописец, один из основателей импрессионизма.');
+INSERT INTO public.author (id, name, login, password, path_logo, description) VALUES (1, 'Клод Моне', 'monet', 'levitan', '/pictures/monet/Klod-Mone.jpg', 'Французский живописец, один из основателей импрессионизма.');
+
+
+--
+-- TOC entry 3363 (class 0 OID 16419)
+-- Dependencies: 212
+-- Data for Name: image; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.image (id, name, path_image, description, date, author_id) VALUES (1, 'Буря над Евпаторией', 'pictures/aivazovsky/bur_nad_evp.jpg', 'Одно из многих произведений художника.', '1861-01-01 00:00:00', 3);
+INSERT INTO public.image (id, name, path_image, description, date, author_id) VALUES (2, 'Радуга', 'pictures/aivazovsky/raduga.jpg', 'Полотно было написано в 1873 году и стало новым этапом в творчестве живописца.', '1873-01-01 00:00:00', 3);
+INSERT INTO public.image (id, name, path_image, description, date, author_id) VALUES (3, 'Чесменский бой', 'pictures/aivazovsky/battle.jpg', 'Полотно заслужено называют одной из самых ярких и известных работ величайшего художника-мариниста среди тех, которые относятся к раннему периоду его творчества.', '1870-06-25 00:00:00', 3);
+INSERT INTO public.image (id, name, path_image, description, date, author_id) VALUES (4, 'Девятый вал', 'pictures/aivazovsky/9_val.jpg', 'Одна из самых знаменитых картин русского художника-мариниста Ивана Айвазовского', '1850-01-01 00:00:00', 3);
+INSERT INTO public.image (id, name, path_image, description, date, author_id) VALUES (6, 'Озеро', 'pictures/levitan/ozero.JPG', 'Картина русского художника Исаака Левитана, над которой он работал в 1899—1900 годах.', '1890-01-01 00:00:00', 1);
+INSERT INTO public.image (id, name, path_image, description, date, author_id) VALUES (7, 'У омута', 'pictures/levitan/u_omuta.jpeg', 'Пейзаж «У омута» входит в знаменитую левитановкую «мрачную трилогию» вместе с картинами «Владимирка» и «Над вечным покоем».', '1892-01-01 00:00:00', 1);
+INSERT INTO public.image (id, name, path_image, description, date, author_id) VALUES (8, 'Водяные лилии', 'pictures/monet/vod_lilii.jpg', 'Многие картины Клода Моне с водяными лилиями. Серия Водяные лилии Клода Моне стала очень важным моментом в его карьере и включала огромное количество картин и рисунков из сада художника.', '1920-01-01 00:00:00', 2);
+INSERT INTO public.image (id, name, path_image, description, date, author_id) VALUES (9, 'Озеро', 'pictures/monet/vokzal_sen_lazar.jpg', 'Паровозы на этих картинах Моне выглядят не как монстры, а, можно сказать, грациозно, хотя всех в то время захватывало ощущение силы, мощи и скорости этих исполинских машин. ', '1877-01-01 00:00:00', 2);
+INSERT INTO public.image (id, name, path_image, description, date, author_id) VALUES (5, 'Золотая осень', 'pictures/levitan/gold_aut.jpeg', 'Появившаяся в период творческой зрелости Исаака Левитана, эта картина характеризует его как тонкого лирика и пейзажиста настроения.', '1895-01-01 00:00:00', 1);
+INSERT INTO public.image (id, name, path_image, description, date, author_id) VALUES (11, 'Впечатление. Восходящее солнце', '/pictures/monet/Ð²Ð¿ÐµÑÐµÑÐ»ÐµÐ½Ð¸Ðµ.jpg', 'Картина Клода Моне, написанная в 1872 году с натуры в старом аванпорте Гавра и давшая название художественному направлению «импрессионизм»', '1872-01-02 00:00:00', 2);
+
+
+--
+-- TOC entry 3371 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: author_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.author_id_seq', 3, true);
+
+
+--
+-- TOC entry 3372 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: image_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.image_id_seq', 11, true);
+
+
+--
+-- TOC entry 3217 (class 2606 OID 16417)
+-- Name: author author_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.author
+    ADD CONSTRAINT author_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3219 (class 2606 OID 16426)
+-- Name: image image_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.image
+    ADD CONSTRAINT image_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3220 (class 2606 OID 16427)
+-- Name: image image_author_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.image
+    ADD CONSTRAINT image_author_id_fkey FOREIGN KEY (author_id) REFERENCES public.author(id);
+
+
+-- Completed on 2024-01-14 21:02:23 MSK
+
+--
+-- PostgreSQL database dump complete
+--
+

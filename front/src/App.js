@@ -52,10 +52,10 @@ function App() {
   return (
     <BrowserRouter>
       <Menu user={user}/>
-      <br style={{
+      {/* <br style={{
         margin: 'calc(3vh + 4px)',
         height: 0,
-      }}/>
+      }}/> */}
       <ImageContext.Provider value={{displayedImage, setDisplayedImage}}>
         <AuthorContext.Provider value={{selectAuthor, setSelectAuthor}}>
           <Routes>

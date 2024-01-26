@@ -11,6 +11,11 @@
   min-width: 300px;
 }
 
+.blank{
+  width: 100%;
+  height: calc(10vh + 2px);
+}
+
 .links{
   margin: 0 auto;
   width: 20%;

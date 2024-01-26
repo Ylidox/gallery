@@ -1,7 +1,0 @@
-FROM node
-WORKDIR /gallery_back
-COPY . .
-COPY ../package*.json ./
-RUN npm install
-EXPOSE 3001
-CMD ["node", "index.js"]

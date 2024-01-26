@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from "react";
-import { NavLink} from "react-router-dom";
+import { useState, useEffect, useContext, useRef } from "react";
+import { NavLink, useNavigate} from "react-router-dom";
 import styles from "../styles/Author.module.css"
 import Picture from "./Picture";
 import { AuthorContext } from '../contexts/AuthorContext';
@@ -29,6 +29,7 @@ function Author({user, home}){
     let [authUser, saveAuth] = useAuth();
     let {selectAuthor, setSelectAuthor} = useContext(AuthorContext);
     let [showAddPicture, setShowAddPicture] = useState(false);
+    let navigate = useNavigate();
     useEffect(() => {
         if(user.id == 0){
             user = authUser;
@@ -53,22 +54,27 @@ function Author({user, home}){
         user = selectAuthor;
         console.log("****update select author****", user)
     }, [selectAuthor]);
+
+    let clickLink = () => {
+        
+        if(home || selectAuthor.id == authUser.id) navigate('/edit_profile');
+    }
     
     return (
         <div className={styles.container}>
-            <NavLink to="/edit_profile" className={styles.link}>
-                <div className={styles.author}>
-                    <div className={styles.logo_container}>
-                        <div className={styles.logo}>
-                            <img src={author.path_logo} alt={author.name}/>
-                        </div>
-                    </div>
-                    <div className={styles.author_info}>
-                        <h2>{author.name}</h2>
-                        <h3>@{author.login}</h3>
+            {/* <NavLink to="/edit_profile" className={styles.link}></NavLink> */}
+            <div className={styles.author} onClick={clickLink}>
+                <div className={styles.logo_container}>
+                    <div className={styles.logo}>
+                        <img src={author.path_logo} alt={author.name}/>
                     </div>
                 </div>
-            </NavLink>
+                <div className={styles.author_info}>
+                    <h2>{author.name}</h2>
+                    <h3>@{author.login}</h3>
+                </div>
+            </div>
+            
             <div className={styles.images}>
                 <div className={styles.author_description}>
                     <div className={styles.info}>

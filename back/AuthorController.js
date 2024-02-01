@@ -225,6 +225,15 @@ class AuthorController{
         let id = await db.query(`SELECT id FROM image ORDER BY RANDOM() LIMIT 1`);
         res.json(id.rows[0].id);
     }
+
+    async getRandomImages(req, res){
+        let count = req.query.count || 10;
+        let images = await db.query(`
+            select image.id, image.name, path_image, date, author_id, image.description, author.name as author_name, author.path_logo as author_path_logo
+            from image, author where image.author_id = author.id order by random() limit $1;`, 
+        [count]);
+        res.json(images.rows);
+    }
 }
 
 module.exports = new AuthorController();

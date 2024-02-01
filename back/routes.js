@@ -10,7 +10,8 @@ router.get('/author/:id/image', authorController.getAuthorImages);
 router.get('/image', authorController.getImages);
 router.get('/image/count', authorController.getCountImages);
 router.get('/image/random_id', authorController.getRandomIdImage);
-router.get('/image/:id', /*authorController.verifyLogin,*/ authorController.getImage);
+router.get('/image/random', authorController.getRandomImages);
+router.get('/image/:id', authorController.getImage);
 
 router.post('/registration', authorController.registrationAuthor);
 router.post('/login', authorController.loginAuthor);

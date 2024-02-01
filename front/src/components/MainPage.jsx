@@ -2,6 +2,13 @@ import {useState, useEffect } from "react";
 import styles from '../styles/MainPage.module.css'
 import Picture from './Picture.jsx'
 
+let getRandomPictures = async (len = 6) => {
+    let res = await fetch(`/api/image/random?count=${len}`);
+    let images = await res.json();
+    console.log(images)
+    return images;
+}
+
 let imageShown = {length: 0};
 let randomPicture = async () => {
     let res = await fetch('/api/image/random_id');
@@ -34,8 +41,10 @@ let randomPicture = async () => {
 }
 
 let generatePicture = async (arr, len) => {
-    for(let i = 0; i < len; i++) 
-        arr.push(await randomPicture());
+    let imgs = await getRandomPictures();
+    arr = arr.concat(imgs);
+    // for(let i = 0; i < len; i++) 
+    //     arr.push(await randomPicture());
     return arr;
 }
 
@@ -46,7 +55,7 @@ function MainPage({imagesMainPage, setImagesMainPage}){
     let scrollHandler = (e) => {
         // console.log("scroll");
         let element = e.target.documentElement;
-        if(element.scrollHeight - (element.scrollTop + window.innerHeight) < 100){
+        if(element.scrollHeight - (element.scrollTop + window.innerHeight) < 50){
             setFetching(true);
         }
     }
